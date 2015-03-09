@@ -51,7 +51,10 @@ end
 # Check if files are binary
 tree = repo.last_commit.tree
 tree.each do |e|
-  filename = data.find { |d| d[:filename] == e[:name] }[:filename]
+  file = data.find { |d| d[:filename] == e[:name] }
+  next unless file
+
+  filename = file[:filename]
   blob = repo.lookup(e[:oid])
   puts "#{filename} binary?=#{blob.binary?}"
 end
